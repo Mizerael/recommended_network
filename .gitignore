@@ -1,4 +1,5 @@
 *data/*
 *.lock
+*.sav
 !.keep
 __*__
