@@ -16,6 +16,9 @@ matplotlib = "^3.7.1"
 scipy = "^1.10.1"
 sklearn = "^0.0.post5"
 scikit-learn = "^1.2.2"
+flask = "^2.3.2"
+flask-restful = "^0.3.10"
+waitress = "^2.1.2"
 
 
 [build-system]

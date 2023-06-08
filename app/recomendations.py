@@ -11,7 +11,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-from source import *
+from app.source import *
 
 def make_recomendations_with_cf(cf_matrix, name = ""
                                 , count_recomendations = 10
