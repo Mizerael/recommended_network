@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {%if title %}
+        <title>
+            Recomendations for {{title}}
+        </title>
+        {% else %}
+        <title>
+            Aboba anime recomendations
+        </title>
+        {% endif %}
+    </head>
+    <body>
+        <div> Aboba: <a href="/">Home</a></div>
+        <hr>
+        {% block content %} {% endblock %}
+    </body>
+</html>
