@@ -7,11 +7,11 @@
         <h2> Top 10 anime by user score </h2>
     {% endif %}
     {% for anime in titles %}
-        <h3>{{anime[0]}} </h3>
+        <h3>{{anime[0][0]}} </h3>
         <p>
-            Genres: <b>{{anime[1]}}</b> <br> {{anime[2]}}
+            Genres: <b>{{anime[0][1]}}</b> <br> {{anime[0][2]}}
             {% if title %}
-                <br> With similarity with {{title}}: {{anime[3]}}
+                <br> With similarity with {{title}}: {{anime[0][3]}}
             {% endif %}
         </p>
     {% endfor %}

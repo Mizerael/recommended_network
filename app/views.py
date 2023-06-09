@@ -15,6 +15,7 @@ class TitleForm():
 sypnopsis_data = pd.read_csv(ANIME_DIR + 'anime_with_synopsis.csv')
 dict = {'Unknown' : 0}
 sypnopsis_data['Score'] = sypnopsis_data['Score'].apply(lambda x : dict[x] if x == 'Unknown' else x).astype(float)
+images_links = pd.read_csv('app/static/images_links.csv', index_col='id')
 
 @app.route('/')
 def index():
@@ -23,6 +24,8 @@ def index():
 @app.route('/recomendations/')
 def recomendations():
     top_10 = sypnopsis_data.sort_values(by= 'Score', ascending= False).head(10)[['Name', 'Genres', 'sypnopsis']].values.tolist()
+    images = [images_links[images_links['title'] == x[0]]['image_url'].values for x in top_10]
+    top_10 = [[x, y] if y != [] else [x, ['']] for x,y in zip(top_10, images)]
     return render_template("recomendations.html", titles = top_10)
 
 @app.route('/recomendations/<title>')
@@ -33,10 +36,11 @@ def content_based_recomendations(title):
     if recomendations is None:
         return render_template("empty.html", title= title)
     else:
-
+        images = [images_links[images_links['title'] == x[0]]['image_url'].values for x in recomendations[1]]
+        anime_titles = [[x, y] if y != [] else [x, ['']] for x,y in zip(recomendations[1], images)]
         return render_template("recomendations.html"
                                , title= recomendations[0]
-                               , titles= recomendations[1]
+                               , titles= anime_titles
                                , count= 10)
 
 @app.route('/recomendations/<title>/<count>')
@@ -50,8 +54,9 @@ def content_based_recomendations_with_count(title, count):
     if recomendations is None:
         return render_template("empty.html", title= title)
     else:
-
+        images = [images_links[images_links['title'] == x[0]]['image_url'].values for x in recomendations[1]]
+        anime_titles = [[x, y] if y != [] else [x, ['']] for x,y in zip(recomendations[1], images)]
         return render_template("recomendations.html"
                                , title= recomendations[0]
-                               , titles= recomendations[1]
+                               , titles= anime_titles
                                , count= count)
