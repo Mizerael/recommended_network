@@ -24,7 +24,14 @@ def index():
 @app.route('/recomendations/')
 def recomendations():
     top_10 = sypnopsis_data.sort_values(by= 'Score', ascending= False).head(10)[['Name', 'Genres', 'sypnopsis']].values.tolist()
-    images = [images_links[images_links['title'] == x[0]]['image_url'].values for x in top_10]
+    images = []
+    for x in top_10:
+        link = images_links[images_links["title"] == x[0]]["image_url"].values.tolist()
+        if link == []:
+            link = ''
+        else:
+            link = link[0]
+        images.append(link)
     top_10 = [[x, y] if y != [] else [x, ['']] for x,y in zip(top_10, images)]
     return render_template("recomendations.html", titles = top_10)
 
@@ -36,8 +43,16 @@ def content_based_recomendations(title):
     if recomendations is None:
         return render_template("empty.html", title= title)
     else:
-        images = [images_links[images_links['title'] == x[0]]['image_url'].values for x in recomendations[1]]
+        images = []
+        for x in recomendations[1]:
+            link = images_links[images_links["title"] == x[0]]["image_url"].values.tolist()
+            if link == []:
+                link = ''
+            else:
+                link = link[0]
+            images.append(link)
         anime_titles = [[x, y] if y != [] else [x, ['']] for x,y in zip(recomendations[1], images)]
+        
         return render_template("recomendations.html"
                                , title= recomendations[0]
                                , titles= anime_titles
@@ -54,8 +69,16 @@ def content_based_recomendations_with_count(title, count):
     if recomendations is None:
         return render_template("empty.html", title= title)
     else:
-        images = [images_links[images_links['title'] == x[0]]['image_url'].values for x in recomendations[1]]
+        images = []
+        for x in recomendations[1]:
+            link = images_links[images_links["title"] == x[0]]["image_url"].values.tolist()
+            if link == []:
+                link = ''
+            else:
+                link = link[0]
+            images.append(link)
         anime_titles = [[x, y] if y != [] else [x, ['']] for x,y in zip(recomendations[1], images)]
+
         return render_template("recomendations.html"
                                , title= recomendations[0]
                                , titles= anime_titles
