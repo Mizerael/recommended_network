@@ -140,6 +140,6 @@ def content_based_recomendations_with_count(title, count):
            link = link[0]
 
         return render_template("recomendations.html"
-                               , title= [recomendations[0], link]
-                               , titles= anime_titles
-                               , count= count)
+                                , title= [recomendations[0], link]
+                                , titles= anime_titles
+                                , count= count)

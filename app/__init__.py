@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bootstrap import Bootstrap
 import os
 
 class Config(object):
@@ -6,5 +7,8 @@ class Config(object):
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+
+bootstrap = Bootstrap(app)
 
 from app import views

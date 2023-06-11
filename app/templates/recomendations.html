@@ -14,8 +14,8 @@
         <h2> Top 10 anime by user score </h2>
     {% endif %}
     {% for anime in titles %}
-    <div class="recomedationsTitle">
-        <h3>{{anime[0][0]}} </h3>
+    <div class="container">
+        <h3><a href="/{{anime[0][0].replace(' ', '_')}}">{{anime[0][0]}}</a></h3>
         <p>
             Genres: <b>{{anime[0][1]}}</b> <br>
             <img src={{anime[1]}} 
@@ -23,6 +23,7 @@
                  width="225"
                  height="320">
             <br> {{anime[0][2]}}
+            <br>
             {% if title %}
                 <br> With similarity with {{title[0]}}: {{anime[0][3]}}
             {% endif %}

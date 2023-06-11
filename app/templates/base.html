@@ -1,19 +1,43 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {%if title %}
-        <title>
-            Recomendations for {{title[0]}}
-        </title>
-        {% else %}
-        <title>
-            Aboba anime recomendations
-        </title>
-        {% endif %}
-    </head>
-    <body>
-        <div> Aboba: <a href="/">Home</a></div>
-        <hr>
-        {% block content %} {% endblock %}
-    </body>
-</html>
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title  %}
+        Recomendations for {{title[0]}}
+    {% else %}
+        Aboba anime recomendations
+    {% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <!-- <div class="container"> -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">U^_w_^U</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/random">Random Title</a></li>
+                    <li><a href="/anime_top">Top 10 anime</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                    <div class="navbar-text">
+                        <i>U_w_U recomendation system</i>
+                    </div>
+                    </li>
+                </ul>
+            </div>
+        <!-- </div> -->
+    </nav>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

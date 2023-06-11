@@ -20,6 +20,7 @@ flask = "^2.3.2"
 flask-restful = "^0.3.10"
 waitress = "^2.1.2"
 flask-wtf = "^1.1.1"
+flask-bootstrap = "^3.3.7.1"
 
 
 [build-system]

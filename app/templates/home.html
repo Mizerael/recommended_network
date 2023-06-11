@@ -1,35 +1,20 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-<div>
-    <h1>U_w_U recomendations system</h1>
-</div>
-<div>
-    <a href="/anime_top/">Anime top by user score</a>
-    <br>
-    <a href="/random">Select Random Anime</a>
-    <form action="" method="post" novalidate>
-        <p>
-            {{form.title.label}}<br>
-            {{form.title}}
-        </p>
-        <p>
-            {{form.count.label}}<br>
-            {{form.count}}
-        </p>
-        <p>
-            {{form.submit()}}
-        </p>
-        <hr>
-        {% with messages = get_flashed_messages() %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+            <br>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
+        {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
         {% endif %}
-        {% endwith %}
-    </form>
+    {% endwith %}
 </div>
 {% endblock %}
