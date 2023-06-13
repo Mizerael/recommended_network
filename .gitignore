@@ -2,4 +2,6 @@
 *.lock
 *.sav
 !.keep
+!*images*
+!*synopsis*
 __*__
