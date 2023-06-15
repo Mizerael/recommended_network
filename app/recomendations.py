@@ -148,13 +148,14 @@ def make_recomendations_with_genres_and_sypnopsis(cbf_matrix, name = ""
     if name == "":
         name = np.random.choice(anime_indexes.index)
     try:
+
         similarity_genres_scores = get_scores(similarity_genres
-                                              , anime_indexes, name, False)
+                                                , anime_indexes, name, False)
         similarity_sypnopsis_scores = get_scores(similarity_sypnonpsis
-                                                 , anime_indexes, name, False)
+                                                    , anime_indexes, name, False)
         similarity_scores = [[x[0], x[1] * y[1]] 
-                             for x, y in zip(similarity_genres_scores
-                                             ,similarity_sypnopsis_scores)]
+                                for x, y in zip(similarity_genres_scores
+                                                ,similarity_sypnopsis_scores)]
         similarity_scores = sorted(similarity_scores
                                 , key= lambda x: x[1], reverse= True)
         ind = similarity_scores[0: count_recomendations]
@@ -162,10 +163,42 @@ def make_recomendations_with_genres_and_sypnopsis(cbf_matrix, name = ""
 
         for _, index in enumerate(ind):
             title = cbf_matrix[['Name', 'Genres', 'sypnopsis']].iloc[index[0]] \
-                                                               .tolist()
+                                                                .tolist()
             title.append(index[1])
             recomendations.append(title)
 
         return name, recomendations
     except:
         return None
+    
+def make_recomendations_with_clustering(cbf_matrix, name = ""
+                                                  , count_recomendations = 10
+                                                  , kernels= cosine_similarity
+                                                  , model= None):
+    if name == "":
+        name = np.random.choice(cbf_matrix['Name'])
+
+    num_clust = cbf_matrix[cbf_matrix['Name'].str.lower() == name].iloc[0]['cluster']
+    cluster_data = cbf_matrix[cbf_matrix['cluster'] == num_clust].reset_index()
+    
+    synopsis = cluster_data['sypnopsis'].str.strip(',.!?:"()').str.split(' ') \
+                                                              .astype(str)
+    similarity_matrix = vectorization(synopsis, CBF_SYPNOPSIS_DATA
+                                              , cosine_similarity)
+
+    anime_indexes = pd.Series(cluster_data.index
+                              , index=cluster_data['Name'].str.lower())
+
+    similarity_scores = get_scores(similarity_matrix, anime_indexes, name)
+
+    ind = similarity_scores[0: count_recomendations]
+    recomendations = []
+
+    for _, index in enumerate(ind):
+        title = cluster_data[['Name', 'Genres', 'sypnopsis']].iloc[index[0]] \
+                                                             .tolist()
+        title.append(index[1])
+        recomendations.append(title)
+
+
+    return name, recomendations
