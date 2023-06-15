@@ -45,6 +45,7 @@ def index():
         else:
             return redirect(f'''/{form.title.data
                                             .replace(" ", "_")
+                                            .replace("/", "~frwsl")
                                             .lower()}/{form.count.data}''')
             
     
@@ -69,12 +70,14 @@ def recomendations():
 
 @app.route('/random')
 def random_title():
-    title = np.random.choice(sypnopsis_data['Name']).replace(' ', '_').lower()
+    title = np.random.choice(sypnopsis_data['Name']).replace(' ', '_') \
+                                                    .replace("/", "~frwsl") \
+                                                    .lower()
     return redirect(f'/{title}')
 
 @app.route('/<title>')
 def content_based_recomendations(title):
-    title = title.replace('_', ' ').lower()
+    title = title.replace('_', ' ').replace("~frwsl", "/").lower()
     recomendations = make_recomendations_with_sypnopsis(sypnopsis_data
                                                         , title
                                                         , similarity_matrix= 
@@ -111,7 +114,7 @@ def content_based_recomendations(title):
 def content_based_recomendations_with_count(title, count):
     if count == '' or count == '10':
         return redirect(f'/{title}')
-    title = title.replace('_', ' ')
+    title = title.replace('_', ' ').replace("~frwsl", "/").lower()
     recomendations = make_recomendations_with_sypnopsis(sypnopsis_data
                                                         , title
                                                         , int(count)
