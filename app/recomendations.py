@@ -178,7 +178,7 @@ def make_recomendations_with_clustering(cbf_matrix, name = ""
     if name == "":
         name = np.random.choice(cbf_matrix['Name'])
 
-    num_clust = cbf_matrix[cbf_matrix['Name'].str.lower() == name].iloc[0]['cluster']
+    num_clust = cbf_matrix[cbf_matrix['Name'] == name].iloc[0]['cluster']
     cluster_data = cbf_matrix[cbf_matrix['cluster'] == num_clust].reset_index()
     
     synopsis = cluster_data['sypnopsis'].str.strip(',.!?:"()').str.split(' ') \
@@ -187,7 +187,7 @@ def make_recomendations_with_clustering(cbf_matrix, name = ""
                                               , cosine_similarity)
 
     anime_indexes = pd.Series(cluster_data.index
-                              , index=cluster_data['Name'].str.lower())
+                              , index=cluster_data['Name'])
 
     similarity_scores = get_scores(similarity_matrix, anime_indexes, name)
 

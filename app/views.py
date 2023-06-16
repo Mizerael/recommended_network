@@ -33,16 +33,16 @@ sypnopsis_data, images_links = preprocessing()
 def index():
     form = TitleForm()
     if form.submit():
-        if sypnopsis_data[sypnopsis_data['Name'] == form.title.data].empty:
-            if form.title.data != None:
-                    flash(f'Anime not found {form.title.data}') 
-            return render_template("home.html", form= form)
-        else:
-            return redirect(f'''/{form.title.data
-                                            .replace(" ", "_")
-                                            .replace("/", "~frwsl")
-                                            .lower()}/{form.count.data}''')
-            
+        if form.title.data != None:
+            if sypnopsis_data[sypnopsis_data['Name'] == form.title.data].empty:
+                flash(f'Anime not found {form.title.data}') 
+                return render_template("home.html", form= form)
+            else:
+                return redirect(f'''/{form.title.data
+                                                .replace(" ", "_")
+                                                .replace("/", "~frwsl")
+                                                }/{form.count.data}''')
+                
     
     return render_template("home.html", form= form)
 
@@ -66,13 +66,12 @@ def recomendations():
 @app.route('/random')
 def random_title():
     title = np.random.choice(sypnopsis_data['Name']).replace(' ', '_') \
-                                                    .replace("/", "~frwsl") \
-                                                    .lower()
+                                                    .replace("/", "~frwsl")
     return redirect(f'/{title}')
 
 @app.route('/<title>')
 def content_based_recomendations(title):
-    title = title.replace('_', ' ').replace("~frwsl", "/").lower()
+    title = title.replace('_', ' ').replace("~frwsl", "/")
     recomendations = make_recomendations_with_clustering(sypnopsis_data, title)
     if recomendations is None:
         return render_template("empty.html", title= title)
@@ -89,9 +88,8 @@ def content_based_recomendations(title):
             images.append(link)
         anime_titles = zip(recomendations[1], images)
 
-        link = images_links[images_links["title"]
-                              .str.lower() == title]['image_url'].values \
-                                                                 .tolist()
+        link = images_links[images_links["title"] == title]['image_url'].values\
+                                                                        .tolist()
         if link == []:
             link = ''
         else:
@@ -106,7 +104,7 @@ def content_based_recomendations(title):
 def content_based_recomendations_with_count(title, count):
     if count == '' or count == '10':
         return redirect(f'/{title}')
-    title = title.replace('_', ' ').replace("~frwsl", "/").lower()
+    title = title.replace('_', ' ').replace("~frwsl", "/")
     recomendations = make_recomendations_with_clustering(sypnopsis_data
                                                          , title
                                                          , int(count))
@@ -124,9 +122,8 @@ def content_based_recomendations_with_count(title, count):
             images.append(link)
         anime_titles = zip(recomendations[1], images)
         
-        link = images_links[images_links["title"]
-                              .str.lower() == title]['image_url'].values \
-                                                                 .tolist()
+        link = images_links[images_links["title"] == title]['image_url'].values \
+                                                                        .tolist()
         if link == []:
             link = ''
         else:
